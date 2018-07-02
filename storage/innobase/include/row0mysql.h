@@ -858,6 +858,47 @@ struct VCOL_STORAGE
 	String *blob_value_storage;
 };
 
+/** Purge virtual column node information. */
+struct purge_vcol_info_t {
+
+	/** Used for virtual column computation */
+	bool	use_vcol;
+	/** MariaDB table opened for virtual column computation. */
+	TABLE*	mariadb_table;
+
+	/** Initialize the virtual column info */
+	void initialize()
+	{
+		use_vcol = false;
+		mariadb_table = NULL;
+	}
+
+	/** Check whether mariadb table exist
+	@return true if table exist. */
+	bool is_table_exist()
+	{
+		return mariadb_table != NULL;
+	}
+
+	/** Check whether virtual column information is used
+	@return true if virtual column computation happened. */
+	bool uses_vcol_info()
+	{
+		return use_vcol == true;
+	}
+
+	/** Validate the virtual column information.
+	@return true if the mariadb table opened successfully
+	or doesn't try to calculate virtual column. */
+	bool validate()
+	{
+		if (!use_vcol) {
+			return true;
+		}
+
+		return mariadb_table != NULL;
+	}
+};
 /**
    Allocate a heap and record for calculating virtual fields
    Used mainly for virtual fields in indexes

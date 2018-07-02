@@ -951,7 +951,13 @@ row_purge_end(
 
 	node->done = TRUE;
 
+	node->vcol_info = NULL;
+
 	ut_a(thr->run_node != NULL);
+
+	if (node->vcol_heap != NULL) {
+		mem_heap_empty(node->vcol_heap);
+	}
 
 	mem_heap_empty(node->heap);
 }
@@ -999,6 +1005,7 @@ row_purge_step(
 			row_purge_end(thr);
 		} else {
 			thr->run_node = node;
+			node->vcol_info = NULL;
 		}
 	} else {
 		row_purge_end(thr);
@@ -1055,3 +1062,18 @@ purge_node_t::validate_pcur()
 	return(true);
 }
 #endif /* UNIV_DEBUG */
+
+/** Check whether the virtual column information exist for the purge
+node.
+@return true if virtual column exist. */
+bool purge_node_t::is_vcol_info_exist()
+{
+	return vcol_info != NULL;
+}
+
+/** Validate the virtual column information stored in purge thread.
+@return true if purge node opens the mariadb table successfully. */
+bool purge_node_t::validate_vcol_info()
+{
+	return vcol_info->validate();
+}
