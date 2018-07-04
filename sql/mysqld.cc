@@ -628,6 +628,18 @@ char mysql_unpacked_real_data_home[FN_REFLEN];
 size_t mysql_unpacked_real_data_home_len;
 uint mysql_real_data_home_len, mysql_data_home_len= 1;
 uint reg_ext_length;
+
+/**
+  redirection parameters
+*/
+
+my_bool redirect_enabled = 0;
+const char *redirect_server_host = NullS;
+const char *redirect_server_port = NullS;
+const char *redirect_user = NullS;
+const char *redirect_server_ttl = NullS;
+
+
 const key_map key_map_empty(0);
 key_map key_map_full(0);                        // Will be initialized later
 

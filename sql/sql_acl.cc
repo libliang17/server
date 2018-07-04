@@ -41,6 +41,8 @@
 #include "rpl_rli.h"
 #include <m_ctype.h>
 #include <stdarg.h>
+#include <string.h>
+#include <stdio.h>
 #include "sp_head.h"
 #include "sp.h"
 #include "transaction.h"
@@ -13513,6 +13515,30 @@ bool acl_authenticate(THD *thd, uint com_change_user_pkt_len)
 
   if (res == CR_OK_HANDSHAKE_COMPLETE)
     thd->get_stmt_da()->disable_status();
+  else if (redirect_enabled)
+  {
+    char redirect_buff[1024] = {0};
+
+    snprintf(redirect_buff,
+              1024,
+              "Location: mysql://%s:%s/user=%s&ttl=%s",
+              redirect_server_host,
+              redirect_server_port,
+              redirect_user,
+              redirect_server_ttl);
+
+    int msg_len = strlen(redirect_buff)+1;
+    char *msg = new char[msg_len];
+    if (NULL == msg)
+    {
+      DBUG_RETURN(1);
+    }
+
+    strncpy(msg, redirect_buff, msg_len);
+    my_ok(thd, 0, 0, msg);
+
+    delete[] msg;
+  }
   else
     my_ok(thd);
 

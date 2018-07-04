@@ -5966,6 +5966,38 @@ static Sys_var_mybool Sys_strict_password_validation(
        GLOBAL_VAR(strict_password_validation),
        CMD_LINE(OPT_ARG), DEFAULT(TRUE), NO_MUTEX_GUARD, NOT_IN_BINLOG);
 
+static Sys_var_mybool Sys_redirect_enabled(
+       "redirect_enabled",
+       "Enable return redirection endpoint",
+       GLOBAL_VAR(redirect_enabled), CMD_LINE(OPT_ARG),
+       DEFAULT(FALSE), NO_MUTEX_GUARD, NOT_IN_BINLOG, ON_CHECK(0),
+       ON_UPDATE(0));
+
+static Sys_var_charptr Sys_redirect_server_host(
+       "redirect_server_host",
+       "The server host that client can choose to redirect to.",
+       READ_ONLY GLOBAL_VAR(redirect_server_host), CMD_LINE(OPT_ARG),
+       IN_FS_CHARSET, DEFAULT("localhost"));
+
+static Sys_var_charptr Sys_redirect_server_port(
+       "redirect_server_port",
+       "The server host port that client can choose to redirect to.",
+       READ_ONLY GLOBAL_VAR(redirect_server_port), CMD_LINE(OPT_ARG),
+       IN_FS_CHARSET, DEFAULT("3306"));
+
+static Sys_var_charptr Sys_redirect_user(
+       "redirect_user",
+       "The redirected user that client can choose to redirect to.",
+       READ_ONLY GLOBAL_VAR(redirect_user), CMD_LINE(OPT_ARG),
+       IN_FS_CHARSET, DEFAULT("root"));
+
+static Sys_var_charptr Sys_redirect_server_ttl(
+       "redirect_server_ttl",
+       "The ttl (time to live) in seconds the redirected endpoint can be trusted.",
+       READ_ONLY GLOBAL_VAR(redirect_server_ttl), CMD_LINE(OPT_ARG),
+       IN_FS_CHARSET, DEFAULT("60"));
+
+
 #ifdef HAVE_MMAP
 static Sys_var_ulong Sys_log_tc_size(
        "log_tc_size",

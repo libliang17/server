@@ -178,6 +178,12 @@ extern char *opt_backup_history_logname, *opt_backup_progress_logname,
             *opt_backup_settings_name;
 extern const char *log_output_str;
 extern const char *log_backup_output_str;
+extern my_bool redirect_enabled;
+extern const char *redirect_server_host;
+extern const char *redirect_server_port;
+extern const char *redirect_user;
+extern const char *redirect_server_ttl;
+
 
 /* System Versioning begin */
 enum vers_system_time_t
