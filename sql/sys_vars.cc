@@ -5985,17 +5985,17 @@ static Sys_var_charptr Sys_redirect_server_port(
        READ_ONLY GLOBAL_VAR(redirect_server_port), CMD_LINE(OPT_ARG),
        IN_FS_CHARSET, DEFAULT("3306"));
 
-static Sys_var_charptr Sys_redirect_user(
-       "redirect_user",
-       "The redirected user that client can choose to redirect to.",
-       READ_ONLY GLOBAL_VAR(redirect_user), CMD_LINE(OPT_ARG),
-       IN_FS_CHARSET, DEFAULT("root"));
+static Sys_var_charptr Sys_redirect_flag(
+       "redirect_flag",
+       "The redirected flag use as and extra parameter",
+       READ_ONLY GLOBAL_VAR(redirect_flag), CMD_LINE(OPT_ARG),
+       IN_FS_CHARSET, DEFAULT(""));
 
 static Sys_var_charptr Sys_redirect_server_ttl(
        "redirect_server_ttl",
        "The ttl (time to live) in seconds the redirected endpoint can be trusted.",
        READ_ONLY GLOBAL_VAR(redirect_server_ttl), CMD_LINE(OPT_ARG),
-       IN_FS_CHARSET, DEFAULT("60"));
+       IN_FS_CHARSET, DEFAULT("0"));
 
 
 #ifdef HAVE_MMAP

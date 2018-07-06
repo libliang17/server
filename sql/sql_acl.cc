@@ -13519,15 +13519,39 @@ bool acl_authenticate(THD *thd, uint com_change_user_pkt_len)
   {
     char redirect_buff[1024] = {0};
 
-    snprintf(redirect_buff,
-              1024,
-              "Location: mysql://%s:%s/user=%s&ttl=%s",
-              redirect_server_host,
-              redirect_server_port,
-              redirect_user,
-              redirect_server_ttl);
+    if (!strcmp(redirect_flag, ""))
+    {
+      snprintf(redirect_buff,
+               1024,
+               "Location: mysql://%s:%s/user=%s",
+               redirect_server_host,
+               redirect_server_port,
+               sctx->user);
+    }
+    else
+    {
+      char redirect_user[128] = {0};
+      snprintf(redirect_user,
+               128,
+               "%s@%s",
+               sctx->user,
+               redirect_flag);
 
-    int msg_len = strlen(redirect_buff)+1;
+      snprintf(redirect_buff,
+               1024,
+               "Location: mysql://%s:%s/user=%s",
+               redirect_server_host,
+               redirect_server_port,
+               redirect_user);
+    }
+
+    if (strcmp(redirect_server_ttl, "0"))
+    {
+      strcat(redirect_buff, "&ttl=");
+      strcat(redirect_buff, redirect_server_ttl);
+    }
+
+    int msg_len = strlen(redirect_buff) + 1;
     char *msg = new char[msg_len];
     if (NULL == msg)
     {

@@ -636,7 +636,7 @@ uint reg_ext_length;
 my_bool redirect_enabled = 0;
 const char *redirect_server_host = NullS;
 const char *redirect_server_port = NullS;
-const char *redirect_user = NullS;
+const char *redirect_flag = NullS;
 const char *redirect_server_ttl = NullS;
 
 

@@ -181,7 +181,7 @@ extern const char *log_backup_output_str;
 extern my_bool redirect_enabled;
 extern const char *redirect_server_host;
 extern const char *redirect_server_port;
-extern const char *redirect_user;
+extern const char *redirect_flag;
 extern const char *redirect_server_ttl;
 
 
